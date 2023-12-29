@@ -30,10 +30,12 @@ driver.quit()
 soup = BeautifulSoup(html, 'html.parser')
 
 # Print the entire HTML content of the webpage
-print(soup.prettify())
-with open('output.txt', 'w', encoding='utf-8') as file:
-    file.write(soup.prettify())
+links = [a['href'] for h2 in soup.find_all('h2', class_='chakra-heading') for a in h2.find_all('a')]
 
+    # Save the links to a text file
+with open('links_output.txt', 'w', encoding='utf-8') as file:
+    for link in links:
+        file.write(link + '\n')
 def home(request):
     return render(request, 'zoom/index.html')
 # Create your views here.
