@@ -26,12 +26,22 @@ def scrape_website(url):
     driver.quit()
 
     # Parse the HTML content using BeautifulSoup
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, 'lxml')
 
     # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
     chakra_text_elements = soup.find_all('p', class_='chakra-text')
     paragraph_list = [text_content.get_text(strip=True) for text_content in chakra_text_elements]
+    elements = soup.find_all(class_='css-46p1lt')
+    text_list = []
+    print(elements)
+    # Extract text from each div and append to the list
+    for div_element in elements:
+        div_text = '\n'.join([p.get_text(strip=True) for p in div_element.find_all('p')])
+        text_list.append(div_text)
 
+    # Extract and print the text with HTML tags
+    for element in elements:
+        print(element.prettify())
     # Find all links within h2 elements with class 'chakra-heading'
     links = [a['href'] for h2 in soup.find_all('h2', class_='chakra-heading') for a in h2.find_all('a')]
     title = [link[10:] for link in links]
@@ -44,7 +54,7 @@ def scrape_website(url):
         content_list.append({
             'link': linkarray[i],
             'title': title[i],
-            'paragraph': paragraph_list
+            'paragraph': elements[i],
         })
     return content_list
 # Call the function with the URL and store the result in the 'content' variable
