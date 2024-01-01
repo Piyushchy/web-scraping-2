@@ -9,11 +9,81 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="./slider.css">
     <title>Hello, world!</title>
+    <style>
+      @layer demo {
+    .compare {
+      display: grid;
+      
+      > * {
+        grid-area: 1 / 1;
+      }
+      
+      > section {
+        display: grid;
+        place-content: center;
+      }
+      
+      .before {
+        -webkit-mask: linear-gradient(to right, #000 0, var(--pos, 50%), #0000 0);
+                mask: linear-gradient(to right, #000 0, var(--pos, 50%), #0000 0);
+      }
+  
+      .after {
+        -webkit-mask: linear-gradient(to right, #0000 0, var(--pos, 50%), #000 0);
+                mask: linear-gradient(to right, #0000 0, var(--pos, 50%), #000 0);
+      }
+  
+      > input[type="range"] {
+        z-index: 1;
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
+        background: transparent;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+  
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+                  appearance: none;
+          inline-size: 4px;
+          block-size: 100%;
+          background-color: CanvasText;
+        } 
+  
+        &::-moz-range-thumb {
+          -moz-appearance: none;
+               appearance: none;
+          inline-size: 4px;
+          block-size: 100dvh;
+          background-color: CanvasText;
+        }
+      }
+    }
+    
+    img {
+      max-block-size: 80dvh;
+      max-inline-size: 100%;
+    }
+  }
+  
+  @layer demo.support {
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+  
+
+  }
+  .compare #typed {
+    width: auto;
+    text-align: center;
+}
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-            <img src="..\assets\sudo.png" width="150" height="50" alt="Your Logo" class="mr-2">
+            <img src="https://i.imgur.com/sU2wd8C.png" width="150" height="50" alt="Your Logo" class="mr-2">
           </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -51,10 +121,10 @@
        <div class="mx-auto" style="width: 200px;">
         <div class="compare">
             <section class="before">
-              <img src="../assets/happy-removebg-preview.png" alt="" />
+              <img src="https://i.imgur.com/wMfESOO.png" alt="" />
             </section>
             <section class="after">
-              <img src="../assets/sad-removebg-preview.png" alt="" />
+              <img src="https://i.imgur.com/tXcaQCM.png" alt="" />
             </section>
             <input type="range" id="range" step="0.1">
         </div>
@@ -147,7 +217,33 @@
         range.oninput = () =>
         document.body.style.setProperty('--pos', range.value + '%');
     </script>
-        <script src="slider.js"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+    var duration = 3000; // Duration in milliseconds
+    var start = 0;
+    var end = 50;
+  
+    var startTime = Date.now();
+  
+    function updatePos() {
+      var currentTime = Date.now();
+      var elapsed = currentTime - startTime;
+  
+      if (elapsed < duration) {
+        var progress = elapsed / duration;
+        var value = start + progress * (end - start);
+        document.body.style.setProperty('--pos', value + '%');
+        setTimeout(updatePos, 16); // Run the update every ~16 milliseconds for smooth animation
+      } else {
+        document.body.style.setProperty('--pos', end + '%'); // Ensure the final value is exactly 'end'
+      }
+    }
+  
+    // Start the animation when the page loads
+    updatePos();
+  });
+  
+        </script>
         <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
         <script>
             // var typed = new Typed('#typed', {

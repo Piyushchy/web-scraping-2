@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-
+content=0
 def scrape_website(url):
     # Set up a Selenium WebDriver
     options = webdriver.ChromeOptions()
@@ -31,24 +31,24 @@ def scrape_website(url):
     # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
  # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
     chakra_text_elements = soup.find_all('p', class_='chakra-text')
-
+    paragraph_list=[]
     # Save the text to a text file
-    with open('chakra_text_contents_output.txt', 'w', encoding='utf-8') as file:
-        for text_content in chakra_text_elements:
-            file.write(text_content.get_text(strip=True) + 'lol')
-       
+ 
+    for text_content in chakra_text_elements:
+        paragraph_list.append(text_content.get_text())
 
     # Find all links within h2 elements with class 'chakra-heading'
     links = [a['href'] for h2 in soup.find_all('h2', class_='chakra-heading') for a in h2.find_all('a')]
 
     # Save the links to a text file
-    with open('links_output.txt', 'w', encoding='utf-8') as file:
-        for link in links:
-            file.write('https://aa-intergroup.org' + link + '\n')
-
+    linkarray=[]
+    for link in links:
+        linkarray.append('https://aa-intergroup.org' + link + '\n')
+    content = {'links':linkarray,
+               'posts':paragraph_list}
+  
 # Call the function with the URL
-scrape_website("https://aa-intergroup.org/meetings/")
-
+scrape_website('https://aa-intergroup.org/meetings/')
 def home(request):
-    return render(request, 'zoom/index.html')
+    return render(request, 'zoom/index.html',content)
 # Create your views here.
