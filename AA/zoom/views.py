@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-content=0
+
 def scrape_website(url):
     # Set up a Selenium WebDriver
     options = webdriver.ChromeOptions()
@@ -29,26 +29,26 @@ def scrape_website(url):
     soup = BeautifulSoup(html, 'html.parser')
 
     # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
- # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
     chakra_text_elements = soup.find_all('p', class_='chakra-text')
-    paragraph_list=[]
-    # Save the text to a text file
- 
-    for text_content in chakra_text_elements:
-        paragraph_list.append(text_content.get_text())
+    paragraph_list = [text_content.get_text(strip=True) for text_content in chakra_text_elements]
 
     # Find all links within h2 elements with class 'chakra-heading'
     links = [a['href'] for h2 in soup.find_all('h2', class_='chakra-heading') for a in h2.find_all('a')]
-
-    # Save the links to a text file
-    linkarray=[]
-    for link in links:
-        linkarray.append('https://aa-intergroup.org' + link + '\n')
-    content = {'links':linkarray,
-               'posts':paragraph_list}
-  
-# Call the function with the URL
-scrape_website('https://aa-intergroup.org/meetings/')
+    title = [link[10:] for link in links]
+    # Create a list of complete URLs
+    linkarray = ['https://aa-intergroup.org' + link for link in links]
+    content_list = []
+    # Return a dictionary containing the extracted data
+    # return {'links': linkarray, 'posts': paragraph_list,'titles':title}
+    for i in range (5):
+        content_list.append({
+            'link': linkarray[i],
+            'title': title[i],
+            'paragraph': paragraph_list
+        })
+    return content_list
+# Call the function with the URL and store the result in the 'content' variable
+content = scrape_website('https://aa-intergroup.org/meetings/')
 def home(request):
-    return render(request, 'zoom/index.html',content)
-# Create your views here.
+    # Pass the 'content' variable to the template
+    return render(request, 'zoom/index.html', {'content':content})
