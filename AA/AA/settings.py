@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+# settings.py
+
+# Celery Configuration
+from celery import Celery
+
+app = Celery('your_project_name')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +33,13 @@ SECRET_KEY = 'django-insecure-z1$efrot$cg)1p7z6-w2enb*d8fw5dcg6=oq)0z#(h!(lsv#gb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_celery_beat',
     'zoom.apps.ZoomConfig',
     'django.contrib.admin',
     'django.contrib.auth',
