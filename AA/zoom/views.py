@@ -33,7 +33,7 @@ def scrape_website(url):
     paragraph_list = [text_content.get_text(strip=True) for text_content in chakra_text_elements]
     elements = soup.find_all(class_='css-46p1lt')
     text_list = []
-    print(elements)
+  
     # Extract text from each div and append to the list
     for div_element in elements:
         div_text = '\n'.join([p.get_text(strip=True) for p in div_element.find_all('p')])
