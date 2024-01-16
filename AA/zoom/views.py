@@ -16,8 +16,7 @@ def scrape_website(url):
     driver.get(url)
     
     # Wait for the presence of 'chakra-heading'
-    element_present = EC.presence_of_element_located((By.CSS_SELECTOR, '.chakra-heading'))
-    WebDriverWait(driver, timeout=10).until(element_present)
+    wait_for_element(driver, '.chakra-heading')
 
     # Get the HTML content after the page has loaded
     html = driver.page_source
@@ -28,29 +27,31 @@ def scrape_website(url):
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(html, 'lxml')
 
-    # Find all div elements with class 'chakra-text css-18zq59p' and extract text content
+    # Extract the text content from the webpage
+    paragraph_list = extract_paragraphs(soup)
+    content_list = extract_content_list(soup)
+
+    return content_list
+
+
+def wait_for_element(driver, selector):
+    element_present = EC.presence_of_element_located((By.CSS_SELECTOR, selector))
+    WebDriverWait(driver, timeout=10).until(element_present)
+
+
+def extract_paragraphs(soup):
     chakra_text_elements = soup.find_all('p', class_='chakra-text')
     paragraph_list = [text_content.get_text(strip=True) for text_content in chakra_text_elements]
-    elements = soup.find_all(class_='css-46p1lt')
-    text_list = []
-  
-    # Extract text from each div and append to the list
-    for div_element in elements:
-        div_text = '\n'.join([p.get_text(strip=True) for p in div_element.find_all('p')])
-        text_list.append(div_text)
+    return paragraph_list
 
-    # Extract and print the text with HTML tags
-    for element in elements:
-        print(element.prettify())
-    # Find all links within h2 elements with class 'chakra-heading'
+
+def extract_content_list(soup):
+    elements = soup.find_all(class_='css-46p1lt')
     links = [a['href'] for h2 in soup.find_all('h2', class_='chakra-heading') for a in h2.find_all('a')]
     title = [link[10:] for link in links]
-    # Create a list of complete URLs
     linkarray = ['https://aa-intergroup.org' + link for link in links]
     content_list = []
-    # Return a dictionary containing the extracted data
-    # return {'links': linkarray, 'posts': paragraph_list,'titles':title}
-    for i in range (5):
+    for i in range(5):
         content_list.append({
             'link': linkarray[i],
             'title': title[i],
