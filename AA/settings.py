@@ -43,7 +43,8 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
-
+    'landing',
+    'social',
     'zoom.apps.ZoomConfig',
     'django.contrib.admin',
     'django.contrib.auth',
