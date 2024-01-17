@@ -15,9 +15,8 @@ def scrape_website(url):
     # Open the webpage
     driver.get(url)
     
-    # Wait for the presence of 'chakra-heading'
-    wait_for_element(driver, '.chakra-heading')
-
+    element_present = EC.presence_of_element_located((By.CSS_SELECTOR, '.chakra-heading'))
+    WebDriverWait(driver, 10).until(element_present)  # increased timeout to 60 seconds
     # Get the HTML content after the page has loaded
     html = driver.page_source
 
