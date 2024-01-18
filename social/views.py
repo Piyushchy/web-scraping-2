@@ -42,7 +42,6 @@ class PostDetailView(LoginRequiredMixin,View):
     def post(self,request,pk,*args,**kwargs):
         post = Post.objects.get(pk=pk)
         form = CommentForm(request.POST)
-        print("here")
         if form.is_valid():
   
             comment = form.save(commit=False)
