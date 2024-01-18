@@ -120,7 +120,7 @@ body {
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="{% url 'profile' user.profile.pk %}">Profile</a>
                 <a class="dropdown-item" 
                   {% if user.is_authenticated %}
                     href ="{% url 'account_logout' %}" >Logout</a>

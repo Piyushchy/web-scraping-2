@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView, DeleteView
-from .models import Post, Comment
+from .models import Post, Comment, UserProfile
 from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class PostListView(LoginRequiredMixin,View):
@@ -83,3 +83,14 @@ class CommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
    
         comment = self.get_object()
         return self.request.user == comment.author
+class ProfileView(LoginRequiredMixin,View):
+    def get(self,request,pk,*args,**kwargs):
+        user = request.user
+        profile = UserProfile.objects.get(pk = pk)
+        post = Post.objects.filter(author = user).order_by('-created_on')
+        context = {
+            'user':user,
+            'profile':profile,
+            'post':post,
+        }
+        return render(request,'social/profile.html',context)
