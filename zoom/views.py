@@ -52,10 +52,11 @@ def extract_content_list(soup):
     linkarray = ['https://aa-intergroup.org' + link for link in links]
     content_list = []
     for i in range(5):
+        cleaned_paragraph = elements[i].get_text(separator=' ').replace(',', '').replace('[', '').replace(']', '')
         content_list.append({
             'link': linkarray[i],
             'title': title[i],
-            'paragraph': elements[i],
+            'paragraph': cleaned_paragraph,
         })
     return content_list
 # Call the function with the URL and store the result in the 'content' variable

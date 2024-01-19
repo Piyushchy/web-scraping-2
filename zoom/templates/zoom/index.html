@@ -1,3 +1,4 @@
+{% load blog_tags %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -120,12 +121,13 @@ body {
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'profile' user.profile.pk %}">Profile</a>
-                <a class="dropdown-item" 
-                  {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
+                  <a class="dropdown-item" href="{% url 'profile' user.profile.pk %}">Profile</a>
+                  <a class="dropdown-item" 
                     href ="{% url 'account_logout' %}" >Logout</a>
                   {% else %}
-                    href="{% url 'account_login' %}" >Login in</a>
+                  <a class="dropdown-item"  href="{% url 'account_signup' %}" >Sign Up</a>
+                  <a class="dropdown-item"  href="{% url 'account_login' %}" >Login in</a>
                   {% endif %} 
                   
               
@@ -164,11 +166,11 @@ body {
 <!-- links  -->
 
 {% for item in content %}
-<div class="card">
+<div class="card text-white bg-dark">
   <h5 class="card-header">Featured</h5>
   <div class="card-body">
     <h5 class="card-title">{{item.title}}</h5>
-    <p class="card-text">{{item.paragraph|safe}}</p>
+    <p class="card-text">{{ item.paragraph|safe }}</p>
     <a href="{{ item.link }}" class="btn btn-primary">Go To AA Website</a>
   </div>
 </div>

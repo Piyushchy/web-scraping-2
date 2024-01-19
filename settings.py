@@ -43,6 +43,7 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'blog_tags'
     'loading',
     'social',
     'zoom.apps.ZoomConfig',
