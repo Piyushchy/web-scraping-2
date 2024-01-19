@@ -1,13 +1,13 @@
 {% extends 'landing/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container" data-bs-theme="dark">
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-5 col-sm-12 border-bottom">
+<div class="container bg-dark mt-5" data-bs-theme="dark">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5 col-sm-12 border-bottom mt-5 text-white">
            <h5>Add a Post</h5>
         </div>
         </div>
-    <div class="row justify-content-center mt-3">
+    <div class="row justify-content-center mt-3 text-white">
         <div class="col-md-5 col-sm-12 border-bottom">
            <form method="POST">
             {% csrf_token %}
@@ -20,7 +20,7 @@
         </div>
     {% for post in posts %}
     <div class="row justify-content-center mt-3">
-        <div class="col-md-5 col-sm-12 border-bottom position-relative">
+        <div class="col-md-5 col-sm-12 border-bottom position-relative text-white">
             <p><strong>{{post.author}} </strong>{{post.created_on}}</p>
             <p>{{post.body}}</p>
             <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>

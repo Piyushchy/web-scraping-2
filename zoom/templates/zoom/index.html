@@ -36,9 +36,6 @@ nav {
     scroll-snap-align: start;
 }
 
-nav * {
-    /* border: 1px solid red; */
-}
 
 .logo {
     height: 50%;
@@ -269,7 +266,7 @@ body {
           <li><a href="https://sudo-choices.vercel.app/#homeSection">Home</a></li>
           <li><a href="https://sudo-choices.vercel.app/#aboutTeam">About Team: <strong>Sudo</strong></a></li>
           <li><a href="https://sudo-choices.vercel.app/#aboutProject">About Project</a></li>
-          <li><a onclick="comingSoon(this)" class="ai-button">Ai Counselling</a></li>
+          <li><a href="{% url 'post-list' %}" class="ai-button">Community</a></li>
       </ul>
       <button class="hamburger-menu" onclick="toggleMenu()"></button>
       <div class="menu-overlay">
