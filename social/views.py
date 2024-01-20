@@ -7,9 +7,11 @@ from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class PostListView(LoginRequiredMixin,View):
     def get (self,request,*args,**kwargs):
+        userprofile = UserProfile.objects.all()
         posts = Post.objects.all().order_by('-created_on')
         form = PostForm()
         context = {
+            'profile':userprofile,
             'posts':posts,
             'form':form ,
         }

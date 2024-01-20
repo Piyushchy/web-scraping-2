@@ -1,55 +1,171 @@
 {% extends 'landing/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container ">
-    <div class="row mt-5">
-        <div class="col-md-5 col-sm-12 border-bottom">
-           <a href="{% url 'post-list' %}" class="btn btn-light">Back to Feed</a>
-        </div>
-        </div>
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-5 col-sm-6">
 
-                <p><strong>{{post.author}} </strong>{{post.created_on}}
+
+<br>
+<br>
+<br>
+<div class="wrapper">
+    <a href="{% url 'post-list' %}" class="btn btn-light mb-3">Back to Feed</a>
+               <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success mt-3">Submit</button>
+                </div>
+               </form>
+               <h3 class="title" style="color:aliceblue">POSTS</h3>
+               <p><strong>{{post.author}} </strong>{{post.created_on}}
                 {% if post.author == request.user %}
                     <a href="{% url 'post-edit' post.pk %}" style="color:#333;"><i class="fa fa-edit"></i></a>
                     <a href="{% url 'post-delete' post.pk %}" style="color:#333;"><i class="fa fa-trash"></i></a></p>
                 {% endif %}
                 <p>{{post.body}}</p>
-                </div>
-            </div>
-            <div class="row justify-content-center mt-3">
-                <div class="col-md-5 col-sm-12 border-bottom">
-                   <form method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success mt-3">Submit</button>
-                    </div>
-                   </form>
-                </div>
-                </div>
-            <div class="row justify-content-center mt-3">
-                <div class="col-md-5 col-sm-12 border-bottom">
-                    <h3>Comments</h3>
-                    {% for comment in comments %}
-                    <div class="card mt-3">
-                        <div class="card-body">
-                            <p><strong>{{comment.author}} </strong>{{comment.created_on}}
-                            {% if comment.author == request.user %}
-              
-                            <a href="{% url 'comment-delete' post.pk comment.pk %}" style="color:#333;"><i class="fa fa-trash"></i></a></p>
-                        {% endif %}
-                            <p>{{comment.comment}}</p>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p>No comments yet.</p>
-                    {% endfor %}
-                </div>
-                </div>
+ 
+
+      
+        <div class="client dark">
+            <span class="image-container">
+                <img width="80" height="80" alt="Billy Whited portrait" src="{{ post.author.profile.profile_pic.url }}">					 
+            </span>
+                <h2 class="heading">{{post.author}}</h2>  {% if post.author == request.user %}
+                <a href="{% url 'post-edit' post.pk %}" style="color:#333;"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'post-delete' post.pk %}" style="color:#333;"><i class="fa fa-trash"></i></a></p>
+            {% endif %}
+            <p>{{post.body}}</p>
         </div>
-
-
-
+   
+ 
+</div>
+<style>
+ 
+textarea {
+    place-content: "Share you thoughts";
+    width: 100% !important;
+    border-radius: 20px;
+}
+        @font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+.wrapper {
+	width:800px; margin:0 auto;
+    
+	font-family: "open sans",arial,sans-serif;
+	margin-top:45px;
+}
+.title { font-size:45px; font-weight:bolder; padding-bottom:25px;
+border-bottom:5px solid #ccc; margin-bottom:5px;}
+.title-info { padding-bottom:25px; font-variant:small-caps;
+}
+.client {
+    margin-bottom: 1.71875em;
+    padding: 40px;
+}
+.client {
+    color: #ffffff;
+    margin-bottom: 1.375em;
+    padding: 40px 20px;
+    position: relative;
+}
+/* color list */
+.dark {  background-color: #333333;}
+.salmon { background-color:#FA8072;}
+.purple { background-color:#800080;}
+.darkcyan { background-color:#008B8B;}
+.crimson { background-color:#DC143C;}
+.dark .image-container img {border: 5px solid #333333;}
+.salmon .image-container img {border: 5px solid #FA8072;}
+.purple .image-container img {border: 5px solid #800080;}
+.darkcyan .image-container img {border: 5px solid #008B8B;}
+.crimson .image-container img {border: 5px solid #DC143C;}
+/* color list */
+.image-container {
+    display: block;
+    height: 100%;
+    left: 0;
+	box-shadow: 0 5px 15px #6a6767;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.image-container img {
+    left: -15px;
+    position: absolute;
+    top: -15px;
+}
+.image-container img {
+    border-radius: 50%;
+	height: 80px;
+    margin-bottom: 1.375em;
+    vertical-align: middle;
+    width: 80px;
+}
+.heading {
+    display: inline-block;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    line-height: 1.83333em;
+    margin: 0 0 1.83333em 20px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+.heading {
+    margin: 0 0 1.83333em 55px;
+}
+.info {
+    font-style: italic;
+    line-height: 1.54688em;
+    position: relative;
+    z-index: 1;
+}
+@media screen and (max-width: 810px) {
+	.wrapper {
+	width:500px; margin:0 auto;
+}
+}
+@media screen and (max-width: 600px) {
+	.wrapper {
+	width:400px; margin:0 auto;
+}
+}
+@media screen and (max-width: 450px) {
+	.wrapper {
+	width:100%; margin:0 auto;
+	padding:5px;
+}
+.image-container img {
+    left: 15px;
+    position: absolute;
+    top: 15px;
+}
+.heading {
+    margin: 0 0 1.83333em 97px;
+}
+}
+    </style>
+    
+</style>
 {% endblock content %}
