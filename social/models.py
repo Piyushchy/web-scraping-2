@@ -6,6 +6,8 @@ class Post(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
+    dislikes = models.ManyToManyField(User, related_name='dislikes', blank=True)
 # Create your models here.
 class Comment(models.Model):
     comment = models.TextField()

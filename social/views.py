@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView, DeleteView
@@ -96,3 +97,32 @@ class ProfileView(LoginRequiredMixin,View):
             'post':post,
         }
         return render(request,'social/profile.html',context)
+from django.shortcuts import redirect
+
+class AddLike(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+
+        if request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)
+
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+
+        return redirect(request.POST.get('next', '/'))
+class AddDislike(LoginRequiredMixin,View):
+    
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+
+        if request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)
+        else:
+            post.dislikes.add(request.user)
+
+        return redirect(request.POST.get('next', '/'))
