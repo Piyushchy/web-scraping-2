@@ -12,16 +12,13 @@
              
       
         <div class="client dark mt-4">
-            <span class="image-container">
+            <span class="image-container position-absolute">
                 <img width="80" height="80" alt="Billy Whited portrait" src="{{ post.author.profile.profile_pic.url }}">					 
             </span>
-            <h2 class="heading">
-                {{post.author}}
-                {% if post.author == request.user %}
-                    <a href="{% url 'post-edit' post.pk %}" style="color:#fff;"><i class="fa fa-edit"></i></a>
-                    <a href="{% url 'post-delete' post.pk %}" style="color:#fff;"><i class="fa fa-trash"></i></a>
-                {% endif %}
-            </h2>
+                <h2 class="heading">{{post.author}} {% if post.author == request.user %}
+                <a href="{% url 'post-edit' post.pk %}" style="color:#fff;" class="position-relative"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'post-delete' post.pk %}" style="color:#fff;" class="position-relative"><i class="fa fa-trash"></i></a></p>
+            {% endif %}</h2> 
             <p>{{post.body}}</p>
         </div>
 
@@ -192,6 +189,9 @@ border-bottom:5px solid #ccc; margin-bottom:5px;}
 }
 .heading {
     margin: 0 0 1.83333em 55px;
+}
+a{
+    z-index: 1;
 }
 .info {
     font-style: italic;
