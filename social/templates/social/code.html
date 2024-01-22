@@ -1,0 +1,69 @@
+{% extends 'landing/base.html' %}
+<title>ACE in Action</title>
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajaxorg.github.io/ace-builds/src/ace.js"></script>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    #editor, #return {
+        height: 50%;
+        overflow: auto;
+        resize: vertical; /* Allow vertical resizing */
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        resize: vertical; /* Disable resizing on the iframe itself */
+    }
+
+    /* Allow resizing from the entire edge of the containers */
+    #editor {
+        border-bottom: 5px solid #ccc;
+        cursor: ns-resize;
+    }
+
+    #return {
+        border-top: 5px solid #ccc;
+        cursor: ns-resize;
+    }
+</style>
+<br><br><br>
+<pre id="editor">xxx</pre>
+<div id="return"></div>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/html");
+
+    function showHTMLInIFrame() {
+    var editorContent = editor.getValue(); // Declare editorContent here
+    $('#return').html("<iframe src=" +
+        "data:text/html," + encodeURIComponent(editorContent) +
+        "></iframe>");
+    $('#editorContent').val(editorContent);
+}
+
+
+    // Call the function immediately after initializing the ACE editor
+    showHTMLInIFrame();
+
+    editor.on("input", showHTMLInIFrame);
+</script>
+<form method="post">
+    <div class="form-group text-white">
+      <label for="formGroupExampleInput">Upload Game</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Game Name" name="game_name">
+    </div>
+    <div class="form-group text-white">
+
+      <textarea class="form-control" id="formGroupExampleInput2" placeholder="Desciption" name="description"></textarea>
+      <input type="hidden" id="editorContent" name="editor_content">
+    </div>
+  </form>
+{% endblock content %}

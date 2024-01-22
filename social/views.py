@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView, DeleteView
-from .models import Post, Comment, UserProfile
+from .models import Post, Comment, UserProfile,Game
 from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class PostListView(LoginRequiredMixin,View):
@@ -126,3 +126,23 @@ class AddDislike(LoginRequiredMixin,View):
             post.dislikes.add(request.user)
 
         return redirect(request.POST.get('next', '/'))
+class Code(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        return render(request,'social/code.html')
+    def post(self,request,*args,**kwargs):
+        game_name = request.POST.get('game_name')
+        description = request.POST.get('description')
+
+        Game.objects.create(name=game_name, description=description)
+
+        posts = Game.objects.all().order_by('-created_on')
+
+        game_name = request.POST.get('game_name')
+        description = request.POST.get('description')
+
+        Game.objects.create(name=game_name, description=description)
+        context = {
+            'posts': posts,
+        }
+
+        return render(request, 'social/index.html', context)
