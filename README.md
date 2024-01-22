@@ -12,7 +12,7 @@ This Project also provides a forum for the users to discuss their problems and g
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=spark-lucifer/Choices-an-Anti-Drug-Adventure)](https://github.com/spark-lucifer/Choices-an-Anti-Drug-Adventure/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=spark-lucifer/web-scraping-2)](https://github.com/spark-lucifer/web-scraping-2/graphs/contributors)
 #### people and bots 🤖 who made this possible ❤
 
 ## Overview
