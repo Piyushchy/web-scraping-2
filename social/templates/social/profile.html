@@ -1,34 +1,323 @@
 {% extends 'landing/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-3 col-sm-6 border-bottom">
-           <a href="{% url 'post-list' %}" class="btn btn-light">Back to feed</a>
-        </div>
-        </div>
-    <div class="row justify-content-center mt-5">
-        <div class="card shadow-sm col-md-8 col-sm-12 border-bottom px-5 pt-3">
-          <img src="{{ profile.profile_pic.url }}" alt="" class="rounded-circle" height="100" width="100">
-          {% if profile.name %}
-          <h3 class="py-4">{{profile.name}}</h3>
-            {% endif %}
-            {% if profile.location %}
-            <p class="py-4">{{profile.location}}</p>
-                {% endif %}
-              
-
-        </div>
-        </div>
+<style>@media (max-width: 767px) {
+    .about-text h6 {
+      font-size: 18px;
+    }
+  }
+  .about-text p {
+    font-size: 18px;
+    max-width: 450px;
+  }
+  .about-text p mark {
+    font-weight: 600;
+    color: #20247b;
+  }
+  
+  .about-list {
+    padding-top: 10px;
+  }
+  .about-list .media {
+    padding: 5px 0;
+  }
+  .about-list label {
+    color: #20247b;
+    font-weight: 600;
+    width: 88px;
+    margin: 0;
+    position: relative;
+  }
+  .about-list label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 11px;
+    width: 1px;
+    height: 12px;
+    background: #20247b;
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+    margin: auto;
+    opacity: 0.5;
+  }
+  .about-list p {
+    margin: 0;
+    font-size: 15px;
+  }
+  
+  @media (max-width: 991px) {
+    .about-avatar {
+      margin-top: 30px;
+    }
+  }
+  
+  .about-section .counter {
+    padding: 22px 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+  }
+  .about-section .counter .count-data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .about-section .counter .count {
+    font-weight: 700;
+    color: #20247b;
+    margin: 0 0 5px;
+  }
+  .about-section .counter p {
+    font-weight: 600;
+    margin: 0;
+  }
+  mark {
+      background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
+      background-size: 100% 3px;
+      background-repeat: no-repeat;
+      background-position: 0 bottom;
+      background-color: transparent;
+      padding: 0;
+      color: currentColor;
+  }
+  .theme-color {
+      color: #fc5356;
+  }
+  .dark-color {
+      color: #20247b;
+  }
+  .fs{
+        font-size: 10px;
+  }
+  </style>
+  <style>
+    .chat-container {
+        max-height: 500px; /* Adjust this value to your needs */
+    overflow-y: auto;
+}
+textarea {
+    place-content: "Share you thoughts";
+    width: 100% !important;
+    border-radius: 20px;
+}
+        @font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+.wrapper {
+	width:800px; margin:0 auto;
     
-    {% for post in post %}
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8 col-sm-12 border-bottom position-relative">
-            <p><strong>{{user.profile.author}} </strong>{{post.created_on}}</p>
-            <p>{{post.body}}</p>
-            <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+	font-family: "open sans",arial,sans-serif;
+	margin-top:45px;
+}
+.title { font-size:45px; font-weight:bolder; padding-bottom:25px;
+border-bottom:5px solid #ccc; margin-bottom:5px;}
+.title-info { padding-bottom:25px; font-variant:small-caps;
+}
+.client {
+    margin-bottom: 1.71875em;
+    padding: 40px;
+}
+.client {
+    color: #ffffff;
+    margin-bottom: 1.375em;
+    padding: 40px 20px;
+    position: relative;
+}
+/* color list */
+.dark {  background-color: #333333;}
+.salmon { background-color:#FA8072;}
+.purple { background-color:#800080;}
+.darkcyan { background-color:#008B8B;}
+.crimson { background-color:#DC143C;}
+.dark .image-container img {border: 5px solid #333333;}
+.salmon .image-container img {border: 5px solid #FA8072;}
+.purple .image-container img {border: 5px solid #800080;}
+.darkcyan .image-container img {border: 5px solid #008B8B;}
+.crimson .image-container img {border: 5px solid #DC143C;}
+/* color list */
+.image-container {
+    display: block;
+    height: 100%;
+    left: 0;
+	box-shadow: 0 5px 15px #6a6767;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.image-container img {
+    left: -15px;
+    position: absolute;
+    top: -15px;
+}
+.image-container img {
+    border-radius: 50%;
+	height: 80px;
+    margin-bottom: 1.375em;
+    vertical-align: middle;
+    width: 80px;
+}
+.heading {
+    display: inline-block;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    line-height: 1.83333em;
+    margin: 0 0 1.83333em 20px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+.heading {
+    margin: 0 0 1.83333em 55px;
+}
+.info {
+    font-style: italic;
+    line-height: 1.54688em;
+    position: relative;
+    z-index: 1;
+}
+@media screen and (max-width: 810px) {
+	.wrapper {
+	width:500px; margin:0 auto;
+}
+}
+@media screen and (max-width: 600px) {
+	.wrapper {
+	width:400px; margin:0 auto;
+}
+}
+@media screen and (max-width: 450px) {
+	.wrapper {
+	width:100%; margin:0 auto;
+	padding:5px;
+}
+.image-container img {
+    left: 15px;
+    position: absolute;
+    top: 15px;
+}
+.heading {
+    margin: 0 0 1.83333em 97px;
+}
+}
+    </style>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+  <br><br><br>
+<div class="container">
+    <section class="section about-section bg-secondary" id="about">
+        <div class="container">
+            <div class="row align-items-center flex-row-reverse">
+                <div class="col-lg-6">
+                    <div class="about-text go-to p-2" style="background: linear-gradient(to top, #bdc3c7, #2c3e50); min-height:80vh ;">
+                        <h3 ><strong style="color: #fff;">About Me</strong></h3>
+                        <h6 class="theme-color lead border-bottom pb-2" style="color: #b0bec5;">A Lead UX &amp; UI designer based in Canada</h6>
+                        <p style="color: #94acb8;">{{profile.bio}}</p>
+                        <div class="row about-list">
+                            <div class="col-md-6">
+                    
+                                <div class="media">
+                                    <label>DOB</label>
+                                    <p>{{ profile.birth_date }}</p>
+                                </div>
+                                <div class="media">
+                                    <label>Residence</label>
+                                    <p>India</p>
+                                </div>
+                                <div class="media">
+                                    <label>Address</label>
+                                    <p>{{ profile.location }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="media">
+                                    <label>Mail</label>
+                                    <p> {{request.user.email}}</p>
+                                </div>
+                                <div class="media">
+                                    <label>Phone</label>
+                                    <p>NA</p>
+                                </div>
+                                <div class="media">
+                                    <label>Social</label>
+                                    <p>NA</p>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-avatar">
+                        <img src="{{ profile.profile_pic.url }}" style="width: 100%; height: auto;" title="" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="counter">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="500" data-speed="500">{{ post.count }}</h6>
+                            <p class="m-0px font-w-600">Posts</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="150" data-speed="150">NA</h6>
+                            <p class="m-0px font-w-600">Sober Streak</p><p class="fs">(Comming Soon)</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="850" data-speed="850">NA</h6>
+                            <p class="m-0px font-w-600">Games Developed</p><p class="fs">(Comming Soon)</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="190" data-speed="190">NA</h6>
+                            <p class="m-0px font-w-600">Followers</p><p class="fs">(Comming Soon)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+    {% for post in post %}
+    <div class="client dark mt-4">
+        <span class="image-container">
+            <img width="80" height="80" alt="Billy Whited portrait" src="{{ post.author.profile.profile_pic.url }}">					 
+        </span>
+            <h2 class="heading">{{post.author}}
+            <a href="{% url 'post-edit' post.pk %}" style="color:#fff;"><i class="fa fa-edit"></i></a>
+            <a href="{% url 'post-delete' post.pk %}" style="color:#fff;"><i class="fa fa-trash"></i></a></p></h2>
+    
+        <p>{{post.body}}</p>
     </div>
+  
     {% endfor %}
 </div>
 {% endblock content %}
