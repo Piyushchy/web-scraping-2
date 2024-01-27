@@ -73,7 +73,7 @@
                     <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
           
                         <form method="post" class="input-group mb-0">
-                            {% csrf_token %}
+                            
                            
                                 <input type="text" name="{{ form.comment.name }}" class="form-control" placeholder="Type message" id="{{ form.comment.id_for_label }}" />
                                 <button class="btn btn-warning" type="submit" id="button-addon2" style="padding-top: .55rem;">

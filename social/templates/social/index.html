@@ -9,7 +9,7 @@
 <div class="wrapper">
     
                <form method="POST">
-                {% csrf_token %}
+                
                 {{ form }}
                 <div class="d-grid gap-2">
                     <button class="btn btn-success mt-3 mb-3">SHARE</button>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="d-flex flex-row rel">
                     <form method="POST" action="{% url 'like' post.pk %}">
-                        {% csrf_token %}
+                        
                         <input type="hidden" name="next" value="{{ request.path }}">
                         <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
                             <i class="fa-regular fa-thumbs-up mr-2" style="color: #a39a9a ;">
@@ -40,7 +40,7 @@
                         </button>
                     </form>
                     <form method="POST" action="{% url 'dislike' post.pk %}">
-                        {% csrf_token %}
+                        
                         <input type="hidden" name="next" value="{{ request.path }}">
                         <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
                             <i class="fa-regular fa-thumbs-down" style="color: #a39a9a ;">
